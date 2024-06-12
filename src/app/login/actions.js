@@ -21,7 +21,7 @@ export async function login(formData) {
   }
 
   revalidatePath('/', 'layout')
-  redirect('http://localhost:3000/planner')
+  redirect('https://i-hate-planning-frontend.vercel.app/planner')
 }
 
 export async function signup(formData) {
@@ -34,7 +34,7 @@ export async function signup(formData) {
       data: { 
         display_name: formData['name'] 
       }, 
-      redirectTo: 'http://localhost:3000/planner' 
+      redirectTo: 'https://i-hate-planning-frontend.vercel.app/planner' 
     }
   }
 
@@ -54,7 +54,7 @@ export async function googleAuth() {
     provider: 'google',
     options: {
       scopes: 'https://www.googleapis.com/auth/calendar',
-      redirectTo: `http://localhost:3000/auth/callback`
+      redirectTo: `https://i-hate-planning-frontend.vercel.app/auth/callback`
     },
   })
 

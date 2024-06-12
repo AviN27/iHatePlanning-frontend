@@ -16,5 +16,5 @@ export async function signout() {
     }
 
     revalidatePath('/', 'layout')
-    redirect('http://localhost:3000')
+    redirect('https://i-hate-planning-frontend.vercel.app')
 }
