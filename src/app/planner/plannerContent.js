@@ -14,6 +14,8 @@ const PlannerContent = ({ user }) => {
 
   const [loading, setLoading] = useState(true)
 
+  const noPlansText = "Seems like you haven't planned anything yet."
+
   useEffect(() => {
     if (user?.app_metadata?.provider !== "email") {
       const fullName = user?.user_metadata?.name;
@@ -27,7 +29,7 @@ const PlannerContent = ({ user }) => {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, []);
+  });
 
   useEffect(() => {
     const fetchPlans = async () => {
@@ -216,7 +218,7 @@ const PlannerContent = ({ user }) => {
       )}
       {!loading && plans.length === 0 && (
         <div className="no-plans-title">
-          <h1>Seems like you haven't planned anything yet.</h1>
+          <h1>{noPlansText}</h1>
           <h3>Click the + button to solve your predicament.</h3>
           <Lottie
             animationData={noplans}
@@ -229,8 +231,8 @@ const PlannerContent = ({ user }) => {
           <div className="plan-grid">
             {user?.email &&
               plans.map((plan) => (
-                <div className="plan-card">
-                  <div key={plan.id} className="plan-data">
+                <div key={plan.id} className="plan-card">
+                  <div className="plan-data">
                     <h2>
                       {getDateStatus(plan.planData.date) === "upcoming" && (
                         <i className="bx bxs-circle bx-spin upcoming-icon"></i>

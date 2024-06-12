@@ -11,6 +11,8 @@ export default function HomeContent({ user }) {
   const [name, setName] = useState();
   const [loading, setLoading] = useState(true);
 
+  const beforeLoginText = "It's basically a planner."
+
   useEffect(() => {
     setLoading(true);
 
@@ -77,7 +79,7 @@ export default function HomeContent({ user }) {
               <div className="home-content-landing">
                 <div className="home-content-half-1">
                   <h1 className="home-landing-title-1">Welcome to IHatePlanning!</h1>
-                  <h3 className="home-landing-title-2">It's basically a planner.</h3>
+                  <h3 className="home-landing-title-2">{beforeLoginText}</h3>
                 </div>
                 <div className="home-content-half-2">
                   <p>Click to gain control of your future.</p>

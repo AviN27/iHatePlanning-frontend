@@ -59,7 +59,6 @@ export async function googleAuth() {
   })
 
   if (data.url) {
-    console.log("GOOGLE DATA", data)
     redirect(data.url) // use the redirect API for your server framework
   } else {
     redirect('/error')

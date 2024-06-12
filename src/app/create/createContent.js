@@ -382,7 +382,7 @@ const CreatePlanner = ({ user }) => {
             {planId && (
               <div className="existing-date-inputs">
                 <span className="existing-date-title-text">
-                  The date & time you've set
+                  The existing date & time
                 </span>
                 <span className="existing-date-text">{formatDate(date)}</span>
               </div>
