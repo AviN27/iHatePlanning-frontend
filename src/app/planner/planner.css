@@ -1,0 +1,322 @@
+body {
+  margin: 1rem;
+  background-color: #d7cec7;
+}
+
+.title-card {
+  background-color: #76323f;
+  font-family: var(--font-figtree);
+  text-align: left;
+  border-radius: 1rem;
+  padding: 0.5rem 2rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem; /* Adds space between the text and button */
+}
+
+.title-card .title-text {
+  flex: 1;
+  min-width: 0; /* Allows the text to shrink but not grow larger than available space */
+}
+
+.hand {
+  padding-top: 1rem;
+  padding-left: 0.5rem;
+  height: 3rem;
+}
+
+.floating-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  font-size: 22px;
+  text-decoration: none;
+  text-transform: capitalize;
+  color: #76323f;
+  cursor: pointer;
+  border: 3px solid;
+  box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px,
+    5px 5px 0px 0px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  border-radius: 50%;
+}
+
+.floating-button:active {
+  position: fixed;
+  box-shadow: 0px 0px 0px 0px;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+}
+
+@media (min-width: 768px) {
+  .floating-button {
+    padding: 0.25em 0.75em;
+  }
+}
+
+
+.plan-title {
+  font-family: var(--font-figtree);
+  color: #76323f;
+  text-align: center;
+  padding-top: 3rem;
+  padding-bottom: 1rem;
+}
+
+.no-plans-title {
+  font-family: var(--font-figtree);
+  color: #76323f;
+  text-align: center;
+  padding-top: 5rem;
+  padding-bottom: 1rem;
+}
+
+.logout-button {
+  font-family: var(--font-figtree);
+  bottom: 20px;
+  right: 20px;
+  width: 70px;
+  height: 70px;
+  font-size: 15px;
+  text-decoration: none;
+  text-transform: capitalize;
+  color: black;
+  cursor: pointer;
+  border: 3px solid;
+  box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px,
+    5px 5px 0px 0px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  border-radius: 50%;
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+
+.logout-button:active {
+  box-shadow: 0px 0px 0px 0px;
+  width: 70px;
+  height: 70px;
+}
+
+.plan-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  gap: 1rem;
+}
+
+.plan-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.plan-card {
+  font-family: var(--font-figtree);
+  border: 3px solid black;
+  background-color: #565656;
+  border-radius: 3rem;
+  padding: 2rem;
+  width: 26rem;
+  color: #d7cec7;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.plan-data {
+  overflow: auto;
+  overflow-wrap: break-word;
+  margin-right: 4rem;
+}
+
+.plan-actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.edit-icon {
+  cursor: pointer;
+  color: #d7cec7;
+  font-size: 1.7rem;
+  padding-left: 6px;
+}
+
+.trash-icon {
+  cursor: pointer;
+  color: #d7cec7;
+  font-size: 1.7rem;
+  padding-left: 6px;
+}
+
+.calendar-icon {
+  cursor: pointer;
+  color: #d7cec7;
+  font-size: 1.7rem;
+  padding-left: 6px;
+}
+
+.upcoming-icon {
+  cursor: pointer;
+  color: #ff0000;
+  font-size: 12px;
+  border: 2px solid black;
+  border-radius: 50%;
+}
+
+.small-icons {
+  margin-right: 0.3rem;
+  font-size: 14px;
+}
+
+/* Checkbox css */
+
+.checkbox-wrapper-31:hover .check {
+  stroke-dashoffset: 0;
+}
+
+.checkbox-wrapper-31 {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+}
+.checkbox-wrapper-31 .background {
+  fill: #ccc;
+  transition: ease all 0.6s;
+  -webkit-transition: ease all 0.6s;
+}
+.checkbox-wrapper-31 .stroke {
+  fill: none;
+  stroke: #fff;
+  stroke-miterlimit: 10;
+  stroke-width: 2px;
+  stroke-dashoffset: 100;
+  stroke-dasharray: 100;
+  transition: ease all 0.6s;
+  -webkit-transition: ease all 0.6s;
+}
+.checkbox-wrapper-31 .check {
+  fill: none;
+  stroke: #fff;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2px;
+  stroke-dashoffset: 22;
+  stroke-dasharray: 22;
+  transition: ease all 0.6s;
+  -webkit-transition: ease all 0.6s;
+}
+.checkbox-wrapper-31 input[type="checkbox"] {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  margin: 0;
+  opacity: 0;
+  -appearance: none;
+  -webkit-appearance: none;
+}
+.checkbox-wrapper-31 input[type="checkbox"]:hover {
+  cursor: pointer;
+}
+.checkbox-wrapper-31 input[type="checkbox"]:checked + svg .background {
+  fill: #6cbe45;
+}
+.checkbox-wrapper-31 input[type="checkbox"]:checked + svg .stroke {
+  stroke-dashoffset: 0;
+}
+.checkbox-wrapper-31 input[type="checkbox"]:checked + svg .check {
+  stroke-dashoffset: 0;
+}
+
+/* ==== */
+
+.noPlans-animation {
+  height: 20rem;
+}
+
+/* Loader css */
+
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+  width: 100vw; /* Full viewport width */
+  position: fixed; /* Ensures it covers the entire screen */
+  top: 0;
+  left: 0; /* Optional: Semi-transparent background */
+  z-index: 9999; /* Ensures it sits above other content */
+}
+
+.loader,
+.loader:before,
+.loader:after{
+  width: 35px;
+  aspect-ratio: 1;
+  box-shadow: 0 0 0 5px inset #76323f;
+  position: relative;
+  animation: l6 1.5s infinite 0.5s;
+}
+.loader:before,
+.loader:after{
+  content: "";
+  position: absolute;
+  left: calc(100% + 5px);
+  animation-delay: 1s;
+}
+.loader:after{
+  left: -40px;
+  animation-delay: 0s;
+}
+@keyframes l6 {
+  0%,55%,100%  {border-radius:0  }
+  20%,30%      {border-radius:50%}
+}
+
+/* ==== */
+
+/*=============== BREAKPOINTS ===============*/
+/* For large devices */
+@media screen and (max-width: 992px) {
+  
+}
+
+/* For medium devices */
+@media screen and (max-width: 768px) {
+  
+  .plan-grid {
+    grid-template-columns: 1fr;
+    margin-right: 4.3rem;
+  }
+
+  .plan-container {
+    flex-direction: column; /* Changes the flex direction to column */
+    justify-content: center;
+    align-items: center;
+    
+  }
+
+  .plan-card {
+    width: 100%; /* Ensures plan cards take full width in smaller screens */
+    max-width: none; /* Removes the max-width restriction */
+  }
+
+}
+
+
+/* For small devices */
+@media screen and (max-width: 350px) {
+}
