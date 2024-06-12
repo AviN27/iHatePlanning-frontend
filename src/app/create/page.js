@@ -1,6 +1,7 @@
 import CreatePlanner from './createContent'
 import { createClient } from '../../../utils/supabase/server'
 import { redirect } from 'next/navigation'
+import { Suspense } from 'react'
 
 export default async function Account() {
   const supabase = createClient()
@@ -11,6 +12,10 @@ export default async function Account() {
   if (!user) {
     return redirect("/");
   } else {
-    return <CreatePlanner user={user} /> 
+    return (
+      <Suspense>
+        <CreatePlanner user={user} /> 
+      </Suspense>
+    )
   }
 }

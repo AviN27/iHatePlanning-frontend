@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import "../create/create.css";
 
 const CreatePlanner = ({ user }) => {
@@ -39,10 +39,11 @@ const CreatePlanner = ({ user }) => {
           `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/plans/id/${planId}`
         );
         const data = await response.json();
+        const formattedDate = new Date(data[0]?.planData?.date).toISOString().slice(0, 16);
         setTitle(data[0]?.planData?.title);
         setDescription(data[0]?.planData?.description);
         setLocation(data[0]?.planData?.location);
-        setDate(data[0]?.planData?.date);
+        setDate(formattedDate);
         setHyperlinks(data[0]?.planData?.links);
       } catch (error) {
         console.error("Error fetching plans:", error);
@@ -87,54 +88,6 @@ const CreatePlanner = ({ user }) => {
   const toggleModal = () => {
     setModal(!modal);
   };
-
-  function formatDate(dateString) {
-    const date = new Date(dateString);
-    const months = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
-
-    const day = date.getUTCDate();
-    const month = date.getUTCMonth(); // This will return 0 for January, 1 for February, etc.
-    const year = date.getUTCFullYear();
-
-    function getOrdinal(n) {
-      const s = ["th", "st", "nd", "rd"];
-      const v = n % 100;
-      return n + (s[(v - 20) % 10] || s[v] || s[0]);
-    }
-    const formattedDate = `${getOrdinal(day)} of ${
-      months[month]
-    }, ${date.toLocaleDateString("en-US", {
-      weekday: "long",
-      timeZone: "UTC",
-    })}`;
-
-    let hours = date.getUTCHours();
-    const minutes = date.getUTCMinutes();
-
-    const ampm = hours >= 12 ? "PM" : "AM";
-    hours = hours % 12;
-    hours = hours ? hours : 12; // Handle midnight (0 hours) as 12 AM
-
-    const formattedMinutes = minutes < 10 ? "0" + minutes : minutes;
-
-    const time = `${hours}:${formattedMinutes} ${ampm}`;
-    const finalFormattedDate = `${formattedDate} at ${time}`;
-
-    return finalFormattedDate;
-  }
 
   const refreshAccessToken = async () => {
 
@@ -379,14 +332,6 @@ const CreatePlanner = ({ user }) => {
                 required={true}
               />
             </div>
-            {planId && (
-              <div className="existing-date-inputs">
-                <span className="existing-date-title-text">
-                  The existing date & time
-                </span>
-                <span className="existing-date-text">{formatDate(date)}</span>
-              </div>
-            )}
             <div className="inputs">
               <span className="title-text">Hyperlinks</span>
               <input

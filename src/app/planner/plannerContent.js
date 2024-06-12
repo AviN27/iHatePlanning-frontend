@@ -29,7 +29,7 @@ const PlannerContent = ({ user }) => {
     }, 1000);
 
     return () => clearInterval(interval);
-  });
+  } , [user]);
 
   useEffect(() => {
     const fetchPlans = async () => {
@@ -39,9 +39,7 @@ const PlannerContent = ({ user }) => {
           `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/plans/email/${user?.email}`
         );
         const data = await response.json();
-        console.log("DATA:", data);
         setPlans(data);
-        console.log("USER:", user)
       } catch (error) {
         console.error("Error fetching plans:", error);
       } finally {
@@ -53,10 +51,6 @@ const PlannerContent = ({ user }) => {
       fetchPlans();
     }
   }, [user?.email]);
-
-  useEffect(() => {
-    console.log("PLANS:", plans);
-  }, [plans]);
 
   const handleDeletePlan = async (id) => {
     try {
