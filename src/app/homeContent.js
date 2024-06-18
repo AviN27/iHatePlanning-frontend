@@ -1,11 +1,8 @@
 "use client";
 
-import Lottie from "lottie-react";
-import plannerHome from "../app/assets/Animation - 1710143093105.json";
 import "../app/home.css";
-import { redirect } from "next/navigation";
-import HomeHandler from "./homeContent";
 import { useEffect, useState } from "react";
+import { signout } from "./planner/actions";
 
 export default function HomeContent({ user }) {
   const [name, setName] = useState();
@@ -65,6 +62,10 @@ export default function HomeContent({ user }) {
                       Planner
                     </button>
                   </a>
+                  <span className="or-home">Or</span>
+                  <button onClick={() => signout()} className="signup-planner" role="button">
+                      Signout
+                  </button>
                 </div>
               </div>
             </div>

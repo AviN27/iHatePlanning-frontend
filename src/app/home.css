@@ -181,7 +181,7 @@ section {
   -webkit-user-select: none;
   touch-action: manipulation;
   border-radius: 1rem;
-  margin-top: 5px;
+  margin-top: 6px;
 }
 
 .signup-planner:active {
@@ -194,6 +194,10 @@ section {
   .signup-planner {
     padding: 0.25em 0.75em;
   }
+}
+
+.or-home {
+  margin-top: 7px;
 }
 
 /* Loader css */

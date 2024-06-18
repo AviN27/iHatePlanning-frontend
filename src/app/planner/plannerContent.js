@@ -197,6 +197,11 @@ const PlannerContent = ({ user }) => {
         <button className="logout-button" onClick={() => signout()}>
           Log Out
         </button>
+        <a href="/">
+          <button className="logout-button">
+            <i className='bx bx-home home-button-icon'></i>
+          </button>
+        </a>
       </div>
 
       {loading && (

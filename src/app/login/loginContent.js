@@ -4,7 +4,7 @@ import { useState } from 'react';
 import '../login/login.css'
 import 'boxicons/css/boxicons.min.css';
 import { useSearchParams } from 'next/navigation'
-import { login, signup, googleAuth } from './actions'
+import { login, signup, googleAuth } from './actions';
 
 const LoginContent = () => {
 
@@ -56,9 +56,6 @@ const LoginContent = () => {
         const response = googleAuth();
         console.log(response)
       };
-      
-      const handleGitHubLogin = () => {
-      };
     
     return (
         <main>
@@ -106,9 +103,6 @@ const LoginContent = () => {
                     
                     <button className='googleButton' onClick={handleGoogleLogin}>
                         <i className='bx bxl-google bx'></i>
-                    </button>
-                    <button className='githubButton' onClick={handleGitHubLogin()}>
-                        <i className='bx bxl-github bx'></i>
                     </button>
                 </div>
             </div>
