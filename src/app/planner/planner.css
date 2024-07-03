@@ -62,7 +62,6 @@ body {
   }
 }
 
-
 .plan-title {
   font-family: var(--font-figtree);
   color: #76323f;
@@ -77,6 +76,13 @@ body {
   text-align: center;
   padding-top: 5rem;
   padding-bottom: 1rem;
+}
+
+.title-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 1rem;
 }
 
 .logout-button {
@@ -302,10 +308,13 @@ body {
 
 /* For medium devices */
 @media screen and (max-width: 768px) {
+
+  body {
+    margin: 0.5rem
+  }
   
   .plan-grid {
     grid-template-columns: 1fr;
-    margin-right: 4.3rem;
   }
   .plan-container {
     flex-direction: column; /* Changes the flex direction to column */
@@ -313,8 +322,17 @@ body {
     align-items: center;
   }
   .plan-card {
-    width: 100%; /* Ensures plan cards take full width in smaller screens */
+    width: auto; /* Ensures plan cards take full width in smaller screens */
     max-width: none; /* Removes the max-width restriction */
+  }
+  .plan-data {
+    margin-right: 1rem;
+  }
+  .title-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
   }
 }
 
@@ -322,7 +340,6 @@ body {
 @media screen and (max-width: 350px) {
   .plan-grid {
     grid-template-columns: 1fr;
-    margin-right: 4.3rem;
   }
   .plan-container {
     flex-direction: column; /* Changes the flex direction to column */
@@ -330,7 +347,10 @@ body {
     align-items: center;
   }
   .plan-card {
-    width: 100%; /* Ensures plan cards take full width in smaller screens */
+    width: auto; /* Ensures plan cards take full width in smaller screens */
     max-width: none; /* Removes the max-width restriction */
+  }
+  .plan-data {
+    margin-right: 1rem;
   }
 }

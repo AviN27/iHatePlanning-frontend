@@ -273,6 +273,11 @@ body.active-modal {
 
 /* For medium devices */
 @media screen and (max-width: 768px) {
+
+    body {
+        margin: 0.5rem
+    }
+
     main {
         flex-direction: column;
     }
@@ -283,17 +288,25 @@ body.active-modal {
     }
 
     .login_button {
-        margin-left: 9rem;
+        margin-left: 0;
 
     }
 
     .form {
         padding-left: 0;
         padding-right: 0;
+        padding-top: 0;
+        align-items: stretch;
+    }
+
+    .form-area {
+        width: 90%;
     }
 
     .card {
-        width: 100%;
+        padding: 0;
+        border-radius: 0;
+        background-color: #D7CEC7;
     }
 
     .inputs {
@@ -308,9 +321,19 @@ body.active-modal {
         padding-left: 0;
     }
 
+    .title-text {
+        padding-right: 0.5rem;
+    }
 }
-
 
 /* For small devices */
 @media screen and (max-width: 350px) {
+    .form-area {
+        width: -webkit-fill-available;
+    }
+
+    .login_button {
+        margin-left: 0.5rem;
+
+    }
 }

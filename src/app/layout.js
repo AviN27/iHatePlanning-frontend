@@ -1,4 +1,5 @@
 import { Inter, Montserrat, Lato, Nunito, Figtree } from "next/font/google";
+import localFont from 'next/font/local'
 import React from 'react';
 // import "./globals.css";
 
@@ -28,6 +29,11 @@ const figtree = Figtree({
   variable: "--font-figtree" 
 });
 
+const honkGoogle = localFont({
+  src: '../app/assets/Honk-Regular-VariableFont_MORF,SHLN.ttf',
+  variable: '--font-honk',
+})
+
 export const metadata = {
   title: "ihateplanning",
   description: "A planner for the unorganized",
@@ -37,7 +43,7 @@ export default function RootLayout({ children }) {
 
   return (
       <html lang="en">
-        <body className={`${inter.className} ${montserrat.variable} ${lato.variable} ${figtree.variable} ${nunito.variable}`}>
+        <body className={`${inter.className} ${montserrat.variable} ${lato.variable} ${figtree.variable} ${nunito.variable} ${honkGoogle.variable}`}>
           {children}
         </body>
       </html>

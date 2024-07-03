@@ -52,7 +52,7 @@ export default function HomeContent({ user }) {
               <div className="home-content-landing-loggedin">
                 <div className="home-content-half-1">
                   <h1 className="home-landing-title-1">Welcome to IHatePlanning</h1>
-                  <h3 className="home-landing-title-2">{name}!</h3>
+                  <h3 className="home-landing-title-2-afterLogin">{name}!</h3>
                   {/* <a href="https://www.freepik.com/free-vector/dark-red-polygonal-background_1111563.htm#fromView=search&page=1&position=24&uuid=5fe00129-9188-4065-b79e-8b8bc8f6edf7">Image by rocketpixel on Freepik</a> */}
                 </div>
                 <div className="home-content-half-2">
@@ -80,7 +80,7 @@ export default function HomeContent({ user }) {
               <div className="home-content-landing">
                 <div className="home-content-half-1">
                   <h1 className="home-landing-title-1">Welcome to IHatePlanning!</h1>
-                  <h3 className="home-landing-title-2">{beforeLoginText}</h3>
+                  <h3 className="home-landing-title-2-beforeLogin">{beforeLoginText}</h3>
                 </div>
                 <div className="home-content-half-2">
                   <p>Click to gain control of your future.</p>

@@ -125,7 +125,15 @@ body {
   .pass_input,
   .email_input,
   .name_input {
-    width: 16.5rem;
+    width: auto;
+  }
+
+  .form {
+    align-items: center;
+  }
+
+  .login_button {
+    margin-left: 0;
   }
 }
 

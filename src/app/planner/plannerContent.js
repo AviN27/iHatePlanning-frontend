@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Lottie from "lottie-react";
 import "../planner/planner.css";
 import "boxicons/css/boxicons.min.css";
-import noplans from "../assets/empty-plans.json"
+import noplans from "../assets/empty-plans.json";
 import { signout } from "./actions";
 
 const PlannerContent = ({ user }) => {
@@ -12,9 +12,9 @@ const PlannerContent = ({ user }) => {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [plans, setPlans] = useState([]);
 
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
-  const noPlansText = "Seems like you haven't planned anything yet."
+  const noPlansText = "Seems like you haven't planned anything yet.";
 
   useEffect(() => {
     if (user?.app_metadata?.provider !== "email") {
@@ -29,7 +29,7 @@ const PlannerContent = ({ user }) => {
     }, 1000);
 
     return () => clearInterval(interval);
-  } , [user]);
+  }, [user]);
 
   useEffect(() => {
     const fetchPlans = async () => {
@@ -54,9 +54,12 @@ const PlannerContent = ({ user }) => {
 
   const handleDeletePlan = async (id) => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/plans/${id}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/plans/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
 
       if (response.ok) {
         console.log(`Plan with ID ${id} deleted successfully`);
@@ -74,24 +77,27 @@ const PlannerContent = ({ user }) => {
     // Toggle the completed status between "Yes" and "No"
     const newComplete = plan.planData.completed === "No" ? "Yes" : "No";
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/plans/${plan._id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: user?.email,
-          name: user?.user_metadata?.display_name,
-          planData: {
-            title: plan.planData.title,
-            date: plan.planData.date,
-            description: plan.planData.description,
-            links: plan.planData.links,
-            location: plan.planData.location,
-            completed: newComplete, // Use the new value here
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/plans/${plan._id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
           },
-        }),
-      });
+          body: JSON.stringify({
+            email: user?.email,
+            name: user?.user_metadata?.display_name,
+            planData: {
+              title: plan.planData.title,
+              date: plan.planData.date,
+              description: plan.planData.description,
+              links: plan.planData.links,
+              location: plan.planData.location,
+              completed: newComplete, // Use the new value here
+            },
+          }),
+        }
+      );
       // Update the local state with the new completed status
       if (response.ok) {
         const updatedPlans = plans.map((p) => {
@@ -149,7 +155,10 @@ const PlannerContent = ({ user }) => {
     }
     const formattedDate = `${getOrdinal(day)} of ${
       months[month]
-    }, ${date.toLocaleDateString("en-US", { weekday: "long", timeZone: "UTC" })}`;
+    }, ${date.toLocaleDateString("en-US", {
+      weekday: "long",
+      timeZone: "UTC",
+    })}`;
 
     let hours = date.getUTCHours();
     const minutes = date.getUTCMinutes();
@@ -194,14 +203,16 @@ const PlannerContent = ({ user }) => {
         <h1 className="title-text">
           Hey {firstName}! {formattedTime()}{" "}
         </h1>
-        <button className="logout-button" onClick={() => signout()}>
-          Log Out
-        </button>
-        <a href="/">
-          <button className="logout-button">
-            <i className='bx bx-home home-button-icon'></i>
+        <div className="title-buttons">
+          <button className="logout-button" onClick={() => signout()}>
+            Log Out
           </button>
-        </a>
+          <a href="/">
+            <button className="logout-button">
+              <i className="bx bx-home home-button-icon"></i>
+            </button>
+          </a>
+        </div>
       </div>
 
       {loading && (
@@ -219,10 +230,7 @@ const PlannerContent = ({ user }) => {
         <div className="no-plans-title">
           <h1>{noPlansText}</h1>
           <h3>Click the + button to solve your predicament.</h3>
-          <Lottie
-            animationData={noplans}
-            className="noPlans-animation"
-          />
+          <Lottie animationData={noplans} className="noPlans-animation" />
         </div>
       )}
       {!loading && plans.length > 0 && (
@@ -238,17 +246,27 @@ const PlannerContent = ({ user }) => {
                       )}{" "}
                       {plan.planData.title}
                     </h2>
-                    {plan.planData.description && <p>{plan.planData.description}</p>}
-                    {plan.planData.location && <p>
-                      <i className="bx bxs-location-plus"></i>{" "}
-                      {plan.planData.location}
-                    </p>}
-                    {plan.planData.date && <p>
-                      <i className="bx bxs-time-five small-icons"></i>
-                      {formatDate(plan.planData.date)}
-                    </p>}
-                    {plan.planData.links && <i className="bx bx-link-alt small-icons"></i>}
-                    {plan.planData.links && <a href={plan.planData.links}>{plan.planData.links}</a>}
+                    {plan.planData.description && (
+                      <p>{plan.planData.description}</p>
+                    )}
+                    {plan.planData.location && (
+                      <p>
+                        <i className="bx bxs-location-plus"></i>{" "}
+                        {plan.planData.location}
+                      </p>
+                    )}
+                    {plan.planData.date && (
+                      <p>
+                        <i className="bx bxs-time-five small-icons"></i>
+                        {formatDate(plan.planData.date)}
+                      </p>
+                    )}
+                    {plan.planData.links && (
+                      <i className="bx bx-link-alt small-icons"></i>
+                    )}
+                    {plan.planData.links && (
+                      <a href={plan.planData.links}>{plan.planData.links}</a>
+                    )}
                   </div>
 
                   <div className="plan-actions">

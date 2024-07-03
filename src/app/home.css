@@ -79,7 +79,18 @@ section {
   margin-bottom: px;
 }
 
-.home-landing-title-2 {
+.home-landing-title-2-afterLogin {
+  margin: 0%;
+  font-family: var(--font-honk);
+  font-size: 4rem;
+  font-weight: 700;
+  font-style: normal;
+  font-variation-settings:
+    "MORF" 35,
+    "SHLN" 9;
+}
+
+.home-landing-title-2-beforeLogin {
   margin: 0%;
 }
 
@@ -302,11 +313,14 @@ section {
     width: 90%;
     border: 0;
   }
-}
 
+  .home-landing-title-2-afterLogin {
+    font-size: 2.5rem;
+  }
+}
 
 /* For small devices */
 @media screen and (max-width: 350px) {
-  
+
 
 }
