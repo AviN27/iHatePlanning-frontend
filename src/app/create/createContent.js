@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import "../create/create.css";
 
-const CreatePlanner = ({ user }) => {
+const CreatePlanner = ({ user, currentSession }) => {
   const searchParams = useSearchParams();
   const planId = searchParams.get("id");
 
@@ -19,6 +19,8 @@ const CreatePlanner = ({ user }) => {
   const [modal, setModal] = useState(false);
 
   const [editLoader, setEditLoader] = useState(false);
+
+  // console.log("access_token: " + currentSession.provider_token);
 
   useEffect(() => {
     if (user?.app_metadata?.provider !== "email") {
@@ -89,32 +91,6 @@ const CreatePlanner = ({ user }) => {
     setModal(!modal);
   };
 
-  const refreshAccessToken = async () => {
-
-    const response = await fetch("https://oauth2.googleapis.com/token", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: new URLSearchParams({
-        client_id: process.env.NEXT_PUBLIC_GOOGLE_API_CLIENT_ID,
-        client_secret: process.env.NEXT_PUBLIC_GOOGLE_API_CLIENT_SECRET,
-        refresh_token: process.env.NEXT_PUBLIC_GOOGLE_API_REFRESH_TOKEN,
-        grant_type: "refresh_token",
-      }),
-    });
-
-    const data = await response.json();
-    if (response.ok) {
-      // Update the access token
-      return data;
-
-      // Optionally, store the new access token in your database or environment variable store
-    } else {
-      console.error("Failed to refresh access token:", data);
-    }
-  };
-
   const createCalendarEvent = async () => {
     let eventDate = new Date(date).toISOString();
     const event = {
@@ -130,31 +106,26 @@ const CreatePlanner = ({ user }) => {
       },
     };
 
-    // Refresh the access token
-    console.log("REFRESHING ACCESS TOKEN");
-    const accessTokenData = await refreshAccessToken();
-
     try {
       const response = await fetch(
         "https://www.googleapis.com/calendar/v3/calendars/primary/events",
         {
           method: "POST",
           headers: {
-            Authorization:
-              "Bearer " + accessTokenData.access_token,
+            Authorization: "Bearer " + currentSession.provider_token
           },
           body: JSON.stringify(event),
         }
-      )
-        .then((data) => {
-          return data.json();
-        })
-        .then((data) => {
-          console.log(data);
-          console.log("Google Event created successfully");
-        });
+      );
+      const data = await response.json();
+      console.log("Calendar event created:", data);
+      if (data && data.status === "confirmed") {
+        return { success: true, data };
+      }
+      return { success: false, data };
     } catch (error) {
       console.error("Error creating event:", error);
+      return { success: false, error };
     }
   };
 
@@ -201,6 +172,16 @@ const CreatePlanner = ({ user }) => {
   const handleSubmit = async (e) => {
     console.log(user);
     e.preventDefault();
+    let isGoogleCalendarEvent = "No";
+    let googleCalendarId = "";
+    if (user?.app_metadata?.provider == "google") {
+      const calendarResult = await createCalendarEvent();
+      console.log("Calendar Result:", calendarResult);
+      if ( calendarResult.success && calendarResult.data.status === "confirmed") {
+        isGoogleCalendarEvent = "Yes";
+        googleCalendarId = calendarResult.data.id;
+      }
+    }
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/plans`,
@@ -219,15 +200,14 @@ const CreatePlanner = ({ user }) => {
               links: hyperlinks,
               location: location,
               completed: "No",
+              isGoogleCalendarEvent: isGoogleCalendarEvent,
+              googleCalendarId: googleCalendarId,
             },
           }),
         }
       );
 
       if (response.ok) {
-        if (user?.app_metadata?.provider !== "email") {
-          createCalendarEvent();
-        }
         console.log("Plan created successfully");
         setTitle("");
         setDescription("");

@@ -7,7 +7,7 @@ import "boxicons/css/boxicons.min.css";
 import noplans from "../assets/empty-plans.json";
 import { signout } from "./actions";
 
-const PlannerContent = ({ user }) => {
+const PlannerContent = ({ user, currentSession }) => {
   const [firstName, setFirstName] = useState("");
   const [currentTime, setCurrentTime] = useState(new Date());
   const [plans, setPlans] = useState([]);
@@ -52,8 +52,12 @@ const PlannerContent = ({ user }) => {
     }
   }, [user?.email]);
 
-  const handleDeletePlan = async (id) => {
+  const handleDeletePlan = async (id, googleCalendarId) => {
     try {
+      if (user?.app_metadata?.provider == "google" && googleCalendarId !== "") {
+        const calendarResult = await deleteCalendarEvent(googleCalendarId);
+        console.log("Calendar Result:", calendarResult);
+      }
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/plans/${id}`,
         {
@@ -93,12 +97,12 @@ const PlannerContent = ({ user }) => {
               description: plan.planData.description,
               links: plan.planData.links,
               location: plan.planData.location,
-              completed: newComplete, // Use the new value here
+              isGoogleCalendarEvent: plan.planData.isGoogleCalendarEvent,
+              completed: newComplete,
             },
           }),
         }
       );
-      // Update the local state with the new completed status
       if (response.ok) {
         const updatedPlans = plans.map((p) => {
           if (p._id === plan._id) {
@@ -189,6 +193,124 @@ const PlannerContent = ({ user }) => {
     } else {
       // Date is in the future
       return "future";
+    }
+  };
+
+  const createCalendarEventFromView = async (plan) => {
+    if (!currentSession?.provider_token) {
+      console.error("No Google session token found.");
+      return;
+    }
+    let eventDate = new Date(plan.planData.date).toISOString();
+    const event = {
+      summary: plan.planData.title,
+      description: plan.planData.description,
+      start: {
+        dateTime: eventDate,
+        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      },
+      end: {
+        dateTime: eventDate,
+        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      },
+    };
+
+    try {
+      const response = await fetch(
+        "https://www.googleapis.com/calendar/v3/calendars/primary/events",
+        {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + currentSession.provider_token,
+          },
+          body: JSON.stringify(event),
+        }
+      );
+      const data = await response.json();
+      console.log("Calendar event created:", data);
+      if (data && data.status === "confirmed") {
+        // Update the plan with isGoogleCalendarEvent and googleCalendarId
+        try {
+          const updateResponse = await fetch(
+            `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/plans/${plan._id}`,
+            {
+              method: "PATCH",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                email: user?.email,
+                name: user?.user_metadata?.display_name,
+                planData: {
+                  ...plan.planData,
+                  isGoogleCalendarEvent: "Yes",
+                  googleCalendarId: data.id,
+                },
+              }),
+            }
+          );
+          if (updateResponse.ok) {
+            // Update local state to reflect the changes
+            const updatedPlans = plans.map((p) => {
+              if (p._id === plan._id) {
+                return {
+                  ...p,
+                  planData: {
+                    ...p.planData,
+                    isGoogleCalendarEvent: "Yes",
+                    googleCalendarId: data.id,
+                  },
+                };
+              }
+              return p;
+            });
+            setPlans(updatedPlans);
+          } else {
+            console.error("Failed to update plan after calendar event creation");
+          }
+        } catch (updateError) {
+          console.error(
+            "Error updating plan after calendar event creation:",
+            updateError
+          );
+        }
+        return { success: true, data };
+      }
+      return { success: false, data };
+    } catch (error) {
+      console.error("Error creating event:", error);
+      return { success: false, error };
+    }
+  };
+
+  const deleteCalendarEvent = async (eventId) => {
+    if (!currentSession?.provider_token) {
+      console.error("No Google session token found.");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `https://www.googleapis.com/calendar/v3/calendars/primary/events/${eventId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: "Bearer " + currentSession.provider_token,
+          },
+        }
+      );
+
+      if (response.status === 204) {
+        console.log("Event deleted successfully.");
+        return { success: true };
+      } else {
+        const errorData = await response.json();
+        console.error("Error deleting event:", errorData);
+        return { success: false, error: errorData };
+      }
+    } catch (error) {
+      console.error("Error deleting event:", error);
+      return { success: false, error };
     }
   };
 
@@ -300,14 +422,26 @@ const PlannerContent = ({ user }) => {
                     <a href={`/create?id=${plan._id}`}>
                       <i className="bx bxs-edit edit-icon"></i>
                     </a>
-                    <a onClick={() => handleDeletePlan(plan._id)}>
+                    <a
+                      onClick={() =>
+                        handleDeletePlan(plan._id, plan.planData.googleCalendarId)
+                      }
+                    >
                       <i className="bx bxs-trash trash-icon"></i>
                     </a>
-                    {getDateStatus(plan.planData.date) !== "past" && (
-                      <a href="#">
-                        <i className="bx bx-calendar-event calendar-icon"></i>
-                      </a>
-                    )}
+                    {getDateStatus(plan.planData.date) !== "past" &&
+                      user?.app_metadata?.provider == "google" &&
+                      plan.planData.isGoogleCalendarEvent === "No" && (
+                        <a
+                          href="#"
+                          onClick={async (e) => {
+                            e.preventDefault();
+                            await createCalendarEventFromView(plan);
+                          }}
+                        >
+                          <i className="bx bx-calendar-event calendar-icon"></i>
+                        </a>
+                      )}
                   </div>
                 </div>
               ))}

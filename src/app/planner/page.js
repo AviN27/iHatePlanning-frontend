@@ -10,9 +10,13 @@ export default async function Account() {
     data: { user },
   } = await supabase.auth.getUser()
 
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
+
   if (!user) {
     return redirect("/");
   } else {
-    return <PlannerContent user={user}/> 
+    return <PlannerContent user={user} currentSession={session}/> 
   }
 }

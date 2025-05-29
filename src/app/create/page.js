@@ -9,12 +9,16 @@ export default async function Account() {
     data: { user },
   } = await supabase.auth.getUser()
   
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
+  
   if (!user) {
     return redirect("/");
   } else {
     return (
       <Suspense>
-        <CreatePlanner user={user} /> 
+        <CreatePlanner user={user} currentSession={session} /> 
       </Suspense>
     )
   }

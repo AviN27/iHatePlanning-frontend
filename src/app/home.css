@@ -135,6 +135,10 @@ section {
   margin: 1rem;
 }
 
+.home-content-half-2-span {
+  margin-bottom: 7px;
+}
+
 .home-content-half-1 {
   border-right: 1rem solid #565656;
   padding-right: 3rem;
@@ -208,7 +212,8 @@ section {
 }
 
 .or-home {
-  margin-top: 7px;
+  margin-top: 14px;
+  margin-bottom: 7px;
 }
 
 /* Loader css */
@@ -305,6 +310,10 @@ section {
     background-color: #d7cec7;
     width: 90%;
     border: 0;
+  }
+
+  .home-content-half-2-span {
+  margin-bottom: 7px;
   }
   
   .home-content-half-1 {
